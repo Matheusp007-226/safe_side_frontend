@@ -2,15 +2,17 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import MapView, {Marker} from 'react-native-maps';
-import { StyleSheet,Dimensions, KeyboardAvoidingView } from 'react-native';
+import { StyleSheet,Dimensions, KeyboardAvoidingView, Modal } from 'react-native';
 import * as Location from 'expo-location';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import { Octicons } from '@expo/vector-icons';
+import ModalListaEventos from '../components/modal/ModalListaEventos';
 
 export default function Home() {
 
   const [region,setRegion] = React.useState({latitude: -13.0073,longitude: -38.4982,latitudeDelta: 0.000922,longitudeDelta: 0.000421})
   const [marker,setMarker] = useState({title:'', description: ''});
+  const [modalEventos, setModalEventos] = useState(true);
 
   const [location, setLocation] = useState(null);
   const [destination, setDestination] = useState(null);
@@ -86,6 +88,22 @@ export default function Home() {
                   }}
                   
             />
+
+            
+
+              <Modal
+                animationType={'slide'}
+                transparent={true}
+                visible={modalEventos}
+                onRequestClose={() => {
+                  setModalEventos(!modalEventos);
+                }}
+            >
+                   <ModalListaEventos local='Pernambués' qtdEventos={56} fecharModal={setModalEventos} />
+            </Modal>
+              
+            
+           
 
             <MapView region={region} style={styles.map}>
 
