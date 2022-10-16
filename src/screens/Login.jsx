@@ -1,9 +1,9 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import { StyleSheet,KeyboardAvoidingView, TextInput, TouchableOpacity, Text, Alert} from 'react-native';
+import { StyleSheet,KeyboardAvoidingView, TextInput, TouchableOpacity, Text, Alert, Image} from 'react-native';
 import { Octicons } from '@expo/vector-icons';
 
-export default function Login() {
+export default function Login({ navigation }) {
 
   const [login, setLogin] = useState('');
   const [password, setPassword] = useState('');
@@ -16,10 +16,15 @@ export default function Login() {
 
     }else{
 
-        Alert.alert('Usuário logado com sucesso!');
+        // Alert.alert('Usuário logado com sucesso!');
+        navigation.navigate('Home');
     }
 
-}
+  }
+
+  const register = () =>{
+    navigation.navigate('CadastroUsuario');
+  }
 
   useEffect(() => {
     
@@ -30,7 +35,10 @@ export default function Login() {
     <KeyboardAvoidingView style={styles.container}>
 
        <TouchableOpacity style={styles.btnImg}>
-            
+            <Image 
+                source={require('../assets/logo.jpg')} 
+                style={styles.btnLogo} 
+            /> 
        </TouchableOpacity>
 
        <Text style={styles.label} >E-mail</Text>
@@ -46,6 +54,11 @@ export default function Login() {
        <TouchableOpacity style={styles.btnEntrar} onPress={() => logIn()}>
             <Text style={styles.textEntrar}>ENTRAR</Text>
        </TouchableOpacity>
+
+       <TouchableOpacity onPress={() => register()}>
+            <Text style={styles.textRegister}>Cadastre-se</Text>
+       </TouchableOpacity>
+       
 
     </KeyboardAvoidingView> 
    
@@ -95,5 +108,15 @@ const styles = StyleSheet.create({
     marginLeft: '3%',
     fontSize: 16,
     marginBottom: 5
+  },
+  textRegister:{
+    color: '#fff',
+    fontSize: 16,
+    marginTop: 15
+  },
+  btnLogo:{
+    width: '100%',
+    height: '100%',
+    borderRadius: 100
   }
 });
