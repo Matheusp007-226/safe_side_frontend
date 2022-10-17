@@ -7,6 +7,12 @@ export default function ModalListaEventos({local, qtdEventos, fecharModal}){
 
     const navigation = useNavigation();
 
+    function abrirListaEventos(){
+
+        fecharModal(false);
+        navigation.navigate('ListaEventos');
+    }
+
     return(
         <View style={styles.container}>
 
@@ -19,7 +25,7 @@ export default function ModalListaEventos({local, qtdEventos, fecharModal}){
                 <Text style={styles.textLabelLocal}>{local}</Text>
                 <Text style={styles.textLabelQtdEventos}>Eventos: {qtdEventos}</Text>
 
-                <TouchableOpacity style={styles.btnListaEventos} onPress={() => navigation.navigate('ListaEventos')}>
+                <TouchableOpacity style={styles.btnListaEventos} onPress={() => abrirListaEventos()}>
                     <Text style={styles.textLabelBtn}>Lista de eventos</Text>
                     <Feather name="list" size={24} color="#b5ff01" />
                 </TouchableOpacity>

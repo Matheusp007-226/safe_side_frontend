@@ -57,7 +57,7 @@ export default function Login({ navigation }) {
 
             <FlatList 
                 data={eventos}
-                keyExtractor={item => item.id}
+                keyExtractor={item => { return item.id}}
                 renderItem={({item}) => 
                         <Eventos 
                             categoria={item.categoria} 
