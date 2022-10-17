@@ -64,7 +64,7 @@ export default function Home() {
                       maxWidth: '94%',
                       marginLeft: 'auto',
                       marginRight: 'auto',
-                      marginTop: 30,
+                      marginTop: 20,
                       borderWidth: 2,
                       borderRadius: 12,
                       display: 'flex',
@@ -82,8 +82,12 @@ export default function Home() {
                       color: '#1faadb',
                     },
                     listView: {
-                      height: 100,
-                      width: '94%'
+                      height: 300,
+                      width: '94%',
+                      position: 'absolute',
+                      top: 70,
+                      left:2,
+                      zIndex: 100
                     }
                   }}
                   
