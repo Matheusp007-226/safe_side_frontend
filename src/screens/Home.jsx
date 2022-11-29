@@ -2,13 +2,26 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import MapView, {Marker} from 'react-native-maps';
-import { StyleSheet,Dimensions, KeyboardAvoidingView, Modal } from 'react-native';
+import { StyleSheet,Dimensions, KeyboardAvoidingView, Modal, View, Keyboard } from 'react-native';
 import * as Location from 'expo-location';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import { Octicons } from '@expo/vector-icons';
 import ModalListaEventos from '../components/modal/ModalListaEventos';
 
 export default function Home() {
+
+  const [marginTop, setMarginTop] = useState(20);
+  const [topListView, setTopListView] = useState(70);
+
+  const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
+      setMarginTop(160);
+      setTopListView(180);
+  });
+
+  const hideSubscription = Keyboard.addListener("keyboardDidHide", () => {
+    setMarginTop(20);
+    setTopListView(70);
+  });
 
   const [region,setRegion] = React.useState({latitude: -13.0073,longitude: -38.4982,latitudeDelta: 0.000922,longitudeDelta: 0.000421})
   const [marker,setMarker] = useState({title:'', description: ''});
@@ -35,7 +48,7 @@ export default function Home() {
 
 
   return (
-    <KeyboardAvoidingView style={styles.container}>
+    <View style={styles.container}>
 
       <GooglePlacesAutocomplete
                   renderLeftButton={()  => <Octicons name="search" size={24} color="black" />}
@@ -64,19 +77,20 @@ export default function Home() {
                       maxWidth: '94%',
                       marginLeft: 'auto',
                       marginRight: 'auto',
-                      marginTop: 20,
+                      marginTop: marginTop,
+                      zIndex: 10,
                       borderWidth: 2,
                       borderRadius: 12,
                       display: 'flex',
                       justifyContent: 'center',
                       alignItems: 'center',
-                      paddingLeft: 10
+                      paddingLeft: 10,
                     },
                     textInput: {
                       height: 38,
                       color: '#5d5d5d',
                       fontSize: 16,
-                      width: '100%'
+                      width: '100%',
                     },
                     predefinedPlacesDescription: {
                       color: '#1faadb',
@@ -85,15 +99,13 @@ export default function Home() {
                       height: 300,
                       width: '94%',
                       position: 'absolute',
-                      top: 70,
+                      top: topListView,
                       left:2,
                       zIndex: 100
                     }
                   }}
                   
             />
-
-            
 
               <Modal
                 animationType={'slide'}
@@ -120,7 +132,7 @@ export default function Home() {
            </MapView>
 
        
-    </KeyboardAvoidingView> 
+    </View> 
    
   );
 }

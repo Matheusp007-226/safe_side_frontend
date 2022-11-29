@@ -9,6 +9,7 @@ import Login from './src/screens/Login';
 import CadastroUsuario from './src/screens/CadastroUsuario';
 import ListaEventos from './src/screens/eventos/ListaEventos';
 import ModalListaEventos from './src/components/modal/ModalListaEventos';
+import EventoAtual from './src/components/modal/EventoAtual';
 
 const Stack = createStackNavigator();
 
@@ -35,6 +36,7 @@ export default function App() {
               }} 
               />
 
+         
           <Stack.Screen name="Login" component={Login} options={{headerShown: false}} />
           <Stack.Screen name="CadastroUsuario" component={CadastroUsuario} options={{headerShown: false}} />
           <Stack.Screen name="ListaEventos" component={ListaEventos} 
@@ -53,6 +55,7 @@ export default function App() {
           />
 
           <Stack.Screen name="ModalListaEventos" component={ModalListaEventos} />
+          <Stack.Screen name="EventoAtual" component={EventoAtual} options={{headerShown: false}} />
         </Stack.Navigator>
         
 
