@@ -5,7 +5,7 @@ import { Octicons } from '@expo/vector-icons';
 import EventoResumo from './../../components/modal/EventoResumo';
 import Eventos from '../../components/modal/Eventos';
 
-export default function Login({ navigation }) {
+export default function ListaEventos({ navigation }) {
   
   const dados = [
     {   

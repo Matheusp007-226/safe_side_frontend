@@ -7,7 +7,7 @@ export default function EventoAtual({categoria, nomeUsuario, endereco, data, hor
 
     const navigation = useNavigation();
 
-    const navegaDetalheEvento = () => navigation.navigate('ListaEventos');
+    const navegaDetalheEvento = () => navigation.navigate('DetalheEvento');
 
     return(
         <TouchableOpacity onPress={() => navegaDetalheEvento()}>
