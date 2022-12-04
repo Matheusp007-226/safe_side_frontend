@@ -17,7 +17,7 @@ export default function Login({ navigation }) {
 
     }else{
 
-        navigation.navigate('EventoAtual');
+        navigation.navigate('Home');
         // setShowPassword(!showPassword);
     }
 

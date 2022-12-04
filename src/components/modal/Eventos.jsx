@@ -1,8 +1,15 @@
 import React from 'react';
 import {View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Ionicons, MaterialIcons, FontAwesome, AntDesign} from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 
-export default function Eventos({categoria, nomeUsuario, endereco, data, hora}){
+export default function Eventos({id,categoria, nomeUsuario, endereco, data, hora}){
+
+    const navigation = useNavigation();
+
+    const editarEvento = () => {
+            navigation.navigate('CadastrarEvento', {idEvento: id});
+    }
 
     return(
         <View style={styles.container}>
@@ -10,7 +17,7 @@ export default function Eventos({categoria, nomeUsuario, endereco, data, hora}){
                     <Text style={styles.textLabelTitulo}>{categoria}</Text>
                     <View style={styles.containerIconesForm}>
 
-                        <TouchableOpacity>
+                        <TouchableOpacity onPress={() => editarEvento()} >
                             <FontAwesome name="edit" size={24} color="white" />
                         </TouchableOpacity>
 

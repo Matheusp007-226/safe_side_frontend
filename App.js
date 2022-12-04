@@ -11,6 +11,7 @@ import ListaEventos from './src/screens/eventos/ListaEventos';
 import ModalListaEventos from './src/components/modal/ModalListaEventos';
 import EventoAtual from './src/components/modal/EventoAtual';
 import DetalheEvento from './src/screens/eventos/DetalheEvento';
+import CadastrarEvento from './src/screens/eventos/CadastrarEvento';
 
 const Stack = createStackNavigator();
 
@@ -58,6 +59,7 @@ export default function App() {
           <Stack.Screen name="ModalListaEventos" component={ModalListaEventos} />
           <Stack.Screen name="EventoAtual" component={EventoAtual} options={{headerShown: false}} />
           <Stack.Screen name="DetalheEvento" component={DetalheEvento} />
+          <Stack.Screen name="CadastrarEvento" component={CadastrarEvento} />
         </Stack.Navigator>
         
 

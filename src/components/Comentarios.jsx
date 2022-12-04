@@ -6,9 +6,13 @@ import { StyleSheet,View,TouchableOpacity, Text, FlatList} from 'react-native';
 export default function Comentarios(props) {
 
   return (
-
+                                
     <View style={styles.container}>
-        <Text style={styles.textComentario}> {props.descricao} </Text>
+          <View style={styles.containerFoto}>
+                 <View style={styles.foto}></View>
+                 <Text style={styles.usuario}>Matheus</Text>
+          </View>
+          <Text style={styles.textComentario}> {props.descricao} </Text>
     </View>
    
   );
@@ -16,21 +20,39 @@ export default function Comentarios(props) {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    width: '100%',
+    flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'flex-start',
+    paddingLeft: 10
   },
   textComentario:{
-    fontSize: 22,
+    fontSize: 17,
     color: '#000',
-    flex: 1,
+    width: '75%',
     height: 100,
-    borderWidth: 2,
-    fontWeight: 'bold',
-    textAlign: 'left',
+    borderWidth: 1,
+    textAlign: 'justify',
     alignSelf: 'flex-start',
     padding: 10,
     borderRadius: 10,
     margin: 10,
+  },
+  containerFoto:{
+    width: '20%',
+    height: 100,
+    display: 'flex',
+    justifyContent: 'center'
+  },
+  foto:{
+    height: '80%',
+    borderRadius: 40,
+    backgroundColor: '#D9D9D9',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  usuario: {
+    textAlign: 'center'
   }
 });

@@ -60,6 +60,7 @@ export default function ListaEventos({ navigation }) {
                 keyExtractor={item => { return item.id}}
                 renderItem={({item}) => 
                         <Eventos 
+                            id={item.id}
                             categoria={item.categoria} 
                             nomeUsuario={item.nomeUsuario} 
                             endereco={item.endereco}

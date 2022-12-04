@@ -1,9 +1,22 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import { StyleSheet,View,TouchableOpacity, Text, FlatList} from 'react-native';
+import { StyleSheet,View,TouchableOpacity, Text, FlatList, ScrollView} from 'react-native';
 import Comentarios from '../../components/Comentarios';
+import CabecalhoDetalheEvento from '../../components/modal/CabecalhoDetalheEvento';
+import AnexosImage from '../../components/modal/AnexosImage';
 
 export default function DetalheEvento() {
+
+  const evento = {
+      id: 2,
+      tipo: 'Acidente de trânsito',
+      local: 'Rodoviária, Salvador - BA',
+      status: 'Perigo baixo',
+      data: '11/04/2022',
+      hora: '22:48',
+      estrela: 2,
+      descDetalhe: 'Acidente que que dois carros colidiram frontalmente da rodovia x, um dos carros está completamente destruído.  Até entãi idêntificado 3 pessoas com ferimentos aparentemente leve e uma desacordada com vários ferimentos. Já foi contatado os primeiros socorros e a transsalvador. No momento possue 3 pesoas dando suporte e o local já foi devidamente sinalizado para evitar outros acidentes. O transito está muito congestionado.'
+  }
   
   const comentarios_base = [
     {   
@@ -40,42 +53,63 @@ export default function DetalheEvento() {
 
   return (
 
-    <View style={styles.container}>
 
-       {/* <EventoResumo 
-        freq="Levemente habitual" 
-        status="Perigo moderado" 
-        endereco="Pernambués, Salvador - BA"
-        estrelas={3}
-       /> */}
+    <ScrollView>
 
-            <FlatList 
-                data={comentarios}
-                keyExtractor={item => { return item.id}}
-                renderItem={({item}) =>     
-                    <View style={styles.containerInterno}> 
-                            <Comentarios descricao={item.descricao} />
-                    </View>
-                }
-            />
+        <View style={styles.container}>
 
-            <TouchableOpacity style={styles.conteinerBtn}>
-                <Text style={styles.textComentario}>Comentar</Text>
-            </TouchableOpacity>
+          <CabecalhoDetalheEvento
+              tipo={evento.tipo}
+              local={evento.local} 
+              status={evento.status} 
+              data={evento.data}
+              hora={evento.hora}
+              estrelas={2}
+          />
 
-            <Text style={styles.tituloAnexos}>Anexos:</Text>
-        </View>
+                <View style={styles.descricaoDetalhada}>
+                    <Text style={styles.textDescDetalhe}>{evento.descDetalhe}</Text>
+                </View>
+
+                <Text style={styles.titulos}>Comentários/ Avaliações</Text>
+
+                <FlatList 
+                    data={comentarios}
+                    keyExtractor={item => { return item.id}}
+                    renderItem={({item}) =>     
+                        
+                                <Comentarios style={styles.comentarios} descricao={item.descricao} />
+
+                    }
+                />
+
+                <View style={styles.containerBtn}>
+                    <TouchableOpacity style={styles.btn}>
+                        <Text style={styles.textComentario}>Comentar</Text>
+                    </TouchableOpacity>
+                </View>
+
+                <Text style={styles.titulos}>Anexos:</Text>
+
+                <AnexosImage />
+
+                
+            </View>
+
+        </ScrollView>
    
   );
 }
 
 const styles = StyleSheet.create({
+  container:{
+      flex: 1
+  },
   containerInterno: {
     flex: 1,
-    alignItems: 'flex-start',
-    justifyContent: 'flex-start',
+    backgroundColor: 'red'
   },
-  conteinerBtn:{
+  btn:{
     padding: 10,
     borderRadius: 8,
     backgroundColor: '#D3D3D3',
@@ -83,11 +117,31 @@ const styles = StyleSheet.create({
   },
   textComentario:{
     textAlign: 'center',
-    fontSize: 20,
+    fontSize: 17,
     fontWeight: 'bold'
   }, 
-  tituloAnexos:{
+  containerBtn:{
+    display: 'flex',
+    justifyContent: 'flex-end',
+    alignItems: 'flex-end',
+    marginRight: 10,
+    marginTop: 10
+  },
+  titulos:{
     fontSize: 24,
-    fontWeight: 'bold'
-  }
+    fontWeight: 'bold',
+    margin: 10
+  },
+  descricaoDetalhada:{
+    backgroundColor: '#D9D9D9',
+    borderRadius: 10,
+    borderWidth: 2,
+    padding: 10,
+    margin: 10
+  },
+  textDescDetalhe:{
+    fontSize: 17,
+    textAlign: 'justify'
+  },
+  
 });

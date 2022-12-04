@@ -2,16 +2,25 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import MapView, {Marker} from 'react-native-maps';
-import { StyleSheet,Dimensions, KeyboardAvoidingView, Modal, View, Keyboard } from 'react-native';
+import { StyleSheet,Dimensions, Modal, View, Keyboard, TouchableOpacity} from 'react-native';
 import * as Location from 'expo-location';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import { Octicons } from '@expo/vector-icons';
 import ModalListaEventos from '../components/modal/ModalListaEventos';
+import FabButton from '../components/fabButton/';
 
-export default function Home() {
+export default function Home({navigation}) {
 
   const [marginTop, setMarginTop] = useState(20);
   const [topListView, setTopListView] = useState(70);
+
+  const cadastrarEvento = () =>{
+        let local = {latitude: location.coords.latitude, longitude: location.coords.longitude };
+
+        console.log(local)
+
+        navigation.navigate('CadastrarEvento', {coordenadas: local});
+  }
 
   const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
       setMarginTop(160);
@@ -131,7 +140,9 @@ export default function Home() {
 
            </MapView>
 
-       
+           <TouchableOpacity style={styles.btnFabButton} onPress={() => cadastrarEvento()}>
+                <FabButton />
+           </TouchableOpacity>
     </View> 
    
   );
@@ -148,4 +159,16 @@ const styles = StyleSheet.create({
     width: Dimensions.get('window').width,
     height: Dimensions.get('window').height - 150
   },
+  fabBtn:{
+    zIndex: 1000
+  },
+  btnFabButton:{
+    magin: 0,
+    width: 60,
+    height: 60,
+    borderRadius: 30, 
+    position: 'absolute', 
+    right: 25,
+    bottom: 60
+  }
 });
