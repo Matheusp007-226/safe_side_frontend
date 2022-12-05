@@ -15,7 +15,7 @@ export default function Home({navigation}) {
   const [topListView, setTopListView] = useState(70);
 
   const cadastrarEvento = () =>{
-        let local = {latitude: location.coords.latitude, longitude: location.coords.longitude };
+        let local = {latitude: location.coords.latitude, longitude: location.coords.longitude, endereco: region.endereco};
 
         console.log(local)
 
@@ -50,7 +50,8 @@ export default function Home({navigation}) {
 
       let location = await Location.getCurrentPositionAsync({});
       setLocation(location);
-      console.log(location)
+      console.log(location);
+      console.log(region);
       setRegion({...region, latitude: location.coords.latitude, longitude: location.coords.longitude})
     })();
   }, []);
@@ -70,7 +71,7 @@ export default function Home({navigation}) {
                       longitudeDelta: 0.000421
                     })
 
-                    setRegion({...region, latitude: details.geometry.location.lat, longitude: details.geometry.location.lng})
+                    setRegion({...region, latitude: details.geometry.location.lat, longitude: details.geometry.location.lng, endereco: details.formatted_address})
                     // console.log(data, details);
                     setMarker({...marker,title: details.name});
                     console.log(details.formatted_address)

@@ -6,6 +6,7 @@ import { Ionicons } from '@expo/vector-icons';
 import DropDownPicker from 'react-native-dropdown-picker';
 import * as ImagePicker from 'expo-image-picker';
 import { Entypo } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
 
 export default function ListaEventos({route}) {
     
@@ -43,13 +44,13 @@ export default function ListaEventos({route}) {
     let dataAtual = new Date();
     dataAtual = dataAtual.getDate() + "/" + (dataAtual.getMonth() + 1) + "/" + dataAtual.getFullYear();
 
-    const { coordenadas, idEvento } = route.params;
+    const { coordenadas, idEvento} = route.params;
     const [textoArea, setTextoArea] = useState('');
     const [date, setDate] = useState(dataAtual);
     const [time, setTime] = useState('');
     const [image, setImage] = useState(null);
     const [open, setOpen] = useState(false);
-    const [value, setValue] = useState();
+    const [categoria, setCategoria] = useState();
     const [items, setItems] = useState([
       {label: 'Tiroteio', value: 'Tiroteio'},
       {label: 'Incêndio', value: 'Incêndio'},
@@ -73,13 +74,30 @@ export default function ListaEventos({route}) {
         }
       };
 
+      const cadastrarEvento = () => {
+
+          let event =  {
+            id: dados.length + 1,
+            categoria: categoria,
+            nomeUsuario: 'Matheus Pimentel', 
+            endereco: coordenadas.endereco,
+            descricao: textoArea,
+            data: '25/08/2022',
+            hora: '20:40'
+      }
+      
+          dados.push(event);
+          alert("Evento cadastrado com sucesso!");
+          console.log(dados)
+      }
+
   useEffect(() => {
 
         if(idEvento){
 
             let evento = dados.filter( item => item.id === idEvento);
             console.log(evento)
-            setValue(evento[0].categoria);
+            setCategoria(evento[0].categoria);
             setTextoArea(evento[0].descricao);
             setDate(evento[0].data);
             setTime(evento[0].hora);
@@ -93,14 +111,14 @@ export default function ListaEventos({route}) {
 
     <View style={styles.container}>
 
-        {/* <Image /> */}
+        <MaterialIcons name="event-note" size={200} color="black" />
 
         <DropDownPicker
             open={open}
-            value={value}
+            value={categoria}
             items={items}
             setOpen={setOpen}
-            setValue={setValue}
+            setValue={setCategoria}
             setItems={setItems}
             containerStyle={{
                 width: '80%'
@@ -139,8 +157,8 @@ export default function ListaEventos({route}) {
             {image && <Image source={{ uri: image }} style={{ width: 150, height: 150 }} />}
         </View>
 
-        <TouchableOpacity style={styles.btnCadastrar}>
-                <Text>CADASTRAR EVENTO</Text>
+        <TouchableOpacity style={styles.btnCadastrar} onPress={() => {cadastrarEvento()}} >
+                <Text style={styles.textCadastrar}>CADASTRAR EVENTO</Text>
         </TouchableOpacity>
 
     </View>
@@ -234,5 +252,9 @@ const styles = StyleSheet.create({
   conteinerTextoAnexos:{
     display: 'flex',
     flexDirection: 'row'
+  },
+  textCadastrar:{
+    fontWeight: 'bold',
+    fontSize: 16
   }
 });

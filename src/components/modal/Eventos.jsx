@@ -11,8 +11,13 @@ export default function Eventos({id,categoria, nomeUsuario, endereco, data, hora
             navigation.navigate('CadastrarEvento', {idEvento: id});
     }
 
+    const detalheEvento = () =>{
+
+            navigation.navigate('DetalheEvento', {idEvento: id});
+    }
+
     return(
-        <View style={styles.container}>
+        <TouchableOpacity style={styles.container} onPress={() => {detalheEvento()}}>
                 <View style={styles.containerTitulo}>
                     <Text style={styles.textLabelTitulo}>{categoria}</Text>
                     <View style={styles.containerIconesForm}>
@@ -40,7 +45,7 @@ export default function Eventos({id,categoria, nomeUsuario, endereco, data, hora
                     </View>
 
                 </View>
-        </View>
+        </TouchableOpacity>
     )
 }
 
