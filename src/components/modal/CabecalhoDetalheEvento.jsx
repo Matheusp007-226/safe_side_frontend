@@ -35,12 +35,12 @@ export default function CabecalhoDetalheEvento({tipo, status, local, data, hora,
                 <View style={styles.containerStar}>
                     {
                        
-                       star_transformado.map((item) => 
+                       star_transformado.map((item, key) => 
                             (item === 1)
                             ?
-                                <MaterialCommunityIcons style={styles.iconStar} name="star" size={26} color="#FFD700" />
+                                <MaterialCommunityIcons key={key} style={styles.iconStar} name="star" size={26} color="#FFD700" />
                             :
-                                <MaterialCommunityIcons style={styles.iconStar} name="star" size={26} color="#fff" />
+                                <MaterialCommunityIcons key={key} style={styles.iconStar} name="star" size={26} color="#fff" />
 
                        )
                         

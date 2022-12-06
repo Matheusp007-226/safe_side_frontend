@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { StyleSheet,View,TouchableOpacity, Text, TextInput, Button, Image} from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
@@ -7,42 +7,14 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import * as ImagePicker from 'expo-image-picker';
 import { Entypo } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
+import Context from '../../components/context';
 
 export default function ListaEventos({route}) {
     
-    const dados = [
-        {   
-            id: '1',
-            categoria: 'Incêndio',
-            nomeUsuario: 'Matheus Pimentel', 
-            endereco: 'Rua Arhur Azevedo, n 215, Pernambués',
-            descricao: 'blablakkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk',
-            data: '10/06/2022',
-            hora: '19:30'
-        },
-        {
-            id: '2',
-            categoria: 'Tiroteio',
-            nomeUsuario: 'Anônimo', 
-            endereco: 'Rua Arábia Saudita, n 159, Pernambués',
-            descricao: 'ahahahahahahahahahahahahhaahahahahhahahahahahhahahahahah',
-            data: '05/10/2021',
-            hora: '07:36'
-        },
-        {
-            id: '3',
-            categoria: 'Acidente de trânsito',
-            nomeUsuario: 'Bianca Souza', 
-            endereco: 'Rua Barbosa Correia, n 59, Pernambués',
-            descricao: 'fluflufluflfufiufufufufufufufufufufuufufufufufufufufuufufufufufuufufufufuf',
-            data: '25/08/2022',
-            hora: '20:40'
-        }
-      ];
-
-    
     let dataAtual = new Date();
     dataAtual = dataAtual.getDate() + "/" + (dataAtual.getMonth() + 1) + "/" + dataAtual.getFullYear();
+
+    const [eventos, setEventos] = useContext(Context);
 
     const { coordenadas, idEvento} = route.params;
     const [textoArea, setTextoArea] = useState('');
@@ -77,25 +49,27 @@ export default function ListaEventos({route}) {
       const cadastrarEvento = () => {
 
           let event =  {
-            id: dados.length + 1,
+            id: eventos.length + 1,
             categoria: categoria,
             nomeUsuario: 'Matheus Pimentel', 
             endereco: coordenadas.endereco,
             descricao: textoArea,
             data: '25/08/2022',
-            hora: '20:40'
+            hora: '20:40',
+            latitude: coordenadas.latitude,
+            longitude: coordenadas.longitude
       }
       
-          dados.push(event);
+          setEventos([...eventos, event]);
           alert("Evento cadastrado com sucesso!");
-          console.log(dados)
+          console.log(eventos);
       }
 
   useEffect(() => {
 
         if(idEvento){
 
-            let evento = dados.filter( item => item.id === idEvento);
+            let evento = eventos.filter( item => item.id === idEvento);
             console.log(evento)
             setCategoria(evento[0].categoria);
             setTextoArea(evento[0].descricao);
@@ -125,7 +99,6 @@ export default function ListaEventos({route}) {
             }}
             placeholder='Selecione a categoria...'
         />
-
 
         <View style={styles.dateAndTimeContainer}>
             <TouchableOpacity style={styles.btnDate}>

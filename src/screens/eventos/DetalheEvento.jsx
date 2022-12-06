@@ -73,7 +73,7 @@ export default function DetalheEvento() {
 
                 <Text style={styles.titulos}>Comentários/ Avaliações</Text>
 
-                <FlatList 
+                {/* <FlatList 
                     data={comentarios}
                     keyExtractor={item => { return item.id}}
                     renderItem={({item}) =>     
@@ -81,7 +81,11 @@ export default function DetalheEvento() {
                                 <Comentarios style={styles.comentarios} descricao={item.descricao} />
 
                     }
-                />
+                /> */}
+
+                {
+                  comentarios.map(item => <Comentarios key={item.id} id={item.id} style={styles.comentarios} descricao={item.descricao} />)
+                }
 
                 <View style={styles.containerBtn}>
                     <TouchableOpacity style={styles.btn}>
@@ -93,7 +97,6 @@ export default function DetalheEvento() {
 
                 <AnexosImage />
 
-                
             </View>
 
         </ScrollView>

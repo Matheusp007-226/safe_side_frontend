@@ -1,40 +1,14 @@
 import React from 'react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { StyleSheet,View,TouchableOpacity, Text, FlatList} from 'react-native';
 import { Octicons } from '@expo/vector-icons';
 import EventoResumo from './../../components/modal/EventoResumo';
 import Eventos from '../../components/modal/Eventos';
+import Context from '../../components/context'
 
 export default function ListaEventos({ navigation }) {
   
-  const dados = [
-    {   
-        id: '1',
-        categoria: 'Incêndio',
-        nomeUsuario: 'Matheus Pimentel', 
-        endereco: 'Rua Arhur Azevedo, n 215, Pernambués',
-        data: '10/06/2022',
-        hora: '19:30'
-    },
-    {
-        id: '2',
-        categoria: 'Tiroteio',
-        nomeUsuario: 'Anônimo', 
-        endereco: 'Rua Arábia Saudita, n 159, Pernambués',
-        data: '05/10/2021',
-        hora: '07:36'
-    },
-    {
-        id: '3',
-        categoria: 'Acidente de trânsito',
-        nomeUsuario: 'Bianca Souza', 
-        endereco: 'Rua Barbosa Correia, n 59, Pernambués',
-        data: '25/08/2022',
-        hora: '20:40'
-    }
-  ];
-
-  const [eventos, setEventos] = useState(dados);
+  const [eventos, setEventos] = useContext(Context);
 
   useEffect(() => {
     
@@ -57,7 +31,7 @@ export default function ListaEventos({ navigation }) {
 
             <FlatList 
                 data={eventos}
-                keyExtractor={item => { return item.id}}
+                keyExtractor={item => item.id}
                 renderItem={({item}) => 
                         <Eventos 
                             id={item.id}

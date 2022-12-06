@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import MapView, {Marker} from 'react-native-maps';
 import { StyleSheet,Dimensions, Modal, View, Keyboard, TouchableOpacity} from 'react-native';
 import * as Location from 'expo-location';
@@ -8,11 +8,13 @@ import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplet
 import { Octicons } from '@expo/vector-icons';
 import ModalListaEventos from '../components/modal/ModalListaEventos';
 import FabButton from '../components/fabButton/';
+import Context from '../components/context';
 
 export default function Home({navigation}) {
 
   const [marginTop, setMarginTop] = useState(20);
   const [topListView, setTopListView] = useState(70);
+  const [eventos, setEventos] = useContext(Context);
 
   const cadastrarEvento = () =>{
         let local = {latitude: location.coords.latitude, longitude: location.coords.longitude, endereco: region.endereco};
@@ -32,9 +34,9 @@ export default function Home({navigation}) {
     setTopListView(70);
   });
 
-  const [region,setRegion] = React.useState({latitude: -13.0073,longitude: -38.4982,latitudeDelta: 0.000922,longitudeDelta: 0.000421})
+  const [region,setRegion] = React.useState({latitude: -13.0064403,longitude: -38.4800165,latitudeDelta: 0.000922,longitudeDelta: 0.000421})
   const [marker,setMarker] = useState({title:'', description: ''});
-  const [modalEventos, setModalEventos] = useState(true);
+  const [modalEventos, setModalEventos] = useState(false);
 
   const [location, setLocation] = useState(null);
   const [destination, setDestination] = useState(null);
@@ -51,10 +53,29 @@ export default function Home({navigation}) {
       let location = await Location.getCurrentPositionAsync({});
       setLocation(location);
       console.log(location);
+      console.log('região');
       console.log(region);
-      setRegion({...region, latitude: location.coords.latitude, longitude: location.coords.longitude})
+      // setRegion({...region, latitude: location.coords.latitude, longitude: location.coords.longitude})
     })();
   }, []);
+
+
+  useEffect(() => {
+
+      let eventos_filtro = eventos.filter(item => (item.latitude == region.latitude && item.longitude == region.longitude));
+
+      if(eventos_filtro.length > 0){
+          setModalEventos(true);
+
+          console.log('status modal eventos 2');
+          console.log(modalEventos);
+      }
+
+
+      console.log('---------------------------------------------------------------------------------------------------')
+      console.log(eventos_filtro);
+
+  }, [region]);
 
 
   return (
