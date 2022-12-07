@@ -13,8 +13,11 @@ export default function ListaEventos({ navigation, route }) {
 
   useEffect(() => {
 
-      if(route.params.coordenadas){
-          setEventosLocal(eventos.filter(item => item.latitude === route.params.coordenadas.latitude && item.longitude === route.params.coordenadas.longitude));
+      if(route.params.endereco){
+        console.log(route.params.endereco)
+          // setEventosLocal(eventos.filter(item => item.latitude === route.params.coordenadas.latitude && item.longitude === route.params.coordenadas.longitude));
+          setEventosLocal(eventos.filter(item => item.endereco === route.params.endereco));
+        
       }
 
   }, []);

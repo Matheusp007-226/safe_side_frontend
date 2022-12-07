@@ -15,7 +15,7 @@ export default function ListaEventos({route}) {
     let dataAtual = new Date();
     dataAtual = dataAtual.getDate() + "/" + (dataAtual.getMonth() + 1) + "/" + dataAtual.getFullYear();
 
-    const [eventos, setEventos] = useContext(Context);
+    const [eventos, setEventos, usuarios, setUsuarios, usuarioLogado, setUsuarioLogado, comentarios, setComentarios, resumoEventos, setResumoEventos] = useContext(Context);
 
     const { coordenadas, idEvento} = route.params;
     const [textoArea, setTextoArea] = useState('');
@@ -60,10 +60,19 @@ export default function ListaEventos({route}) {
             latitude: coordenadas.latitude,
             longitude: coordenadas.longitude
       }
-      
+
+      console.log('new event')
+      console.log(event)
+
+      console.log(resumoEventos)
+          let quantidade = resumoEventos.qtd + 1;
+          console.log('quantidade: ', quantidade)
+          setResumoEventos({qtd: quantidade, endereco: resumoEventos.endereco});
+
           setEventos([...eventos, event]);
           alert("Evento cadastrado com sucesso!");
           console.log(eventos);
+          console.log(resumoEventos)
       }
 
   useEffect(() => {
@@ -113,9 +122,7 @@ export default function ListaEventos({route}) {
             </TouchableOpacity>
         </View>
 
-        <TextInput multiline={true} numberOfLines={7} textAlignVertical="top" style={styles.textArea}>
-                {textoArea}
-        </TextInput>
+        <TextInput multiline={true} numberOfLines={7} textAlignVertical="top" style={styles.textArea} value={textoArea} onChangeText={(text) => { console.log(text); setTextoArea(text)}} />
 
         <View style={styles.imgContainer}>
             {!image && 

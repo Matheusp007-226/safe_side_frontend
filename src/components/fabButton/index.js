@@ -1,12 +1,11 @@
 import React from 'react';
-import { StyleSheet,View} from 'react-native';
+import { StyleSheet,View,TouchableOpacity, Animated} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
 export default function FabButton({navigation}) {
    
   return (
-
-
+    
         <View style={styles.containerbtn}>
             
                 <Ionicons name="add-sharp" size={24} color="white" />

@@ -16,7 +16,7 @@ export default function Comentarios(props) {
           let user = usuarios.filter(user => user.id === usua);
           setUsuario(user[0].nomeUsuario);
 
-                console.log(props.idUsuarioLogado);
+              console.log(props.idUsuarioLogado);
 
 
       }

@@ -1,48 +1,118 @@
 import * as React from 'react';
-import { FAB, Portal, Provider } from 'react-native-paper';
+import { StyleSheet,View,TouchableWithoutFeedback, Animated} from 'react-native';
+import { AntDesign, Entypo } from '@expo/vector-icons';
 
-const FabButton = () => {
-  const [state, setState] = React.useState({ open: false });
+const FabButtonMenu = (props) => {
 
-  const onStateChange = ({ open }) => setState({ open });
+  let animation = new Animated.Value(0);
+ 
 
-  const { open } = state;
+  const toogleMenu = () => {
+
+    let open;
+    const toValue = open ? 0 : 1;
+
+    Animated.spring(animation, {
+      toValue,
+      friction: 5,
+      useNativeDriver: true
+    }).start();
+
+    open = !open;
+
+  }
+
+  const likeStyle = {
+
+    transform: [
+      { scale: animation},
+      {
+        translateY: animation.interpolate({
+          inputRange: [0, 1],
+          outputRange: [0, -140]
+        })
+      }
+    ]
+    
+  }
+
+  const cameraStyle = {
+
+    transform: [
+      { scale: animation},
+      {
+        translateY: animation.interpolate({
+          inputRange: [0, 1],
+          outputRange: [0, -80]
+        })
+      }
+    ]
+  }
+
+  const rotation = {
+    transform: [
+      {
+        rotate: animation.interpolate({
+          inputRange: [0,1],
+          outputRange: ["0deg", "45deg"]
+        })
+      }
+    ]
+  }
+
 
   return (
-    <Provider>
-      <Portal>
-        <FAB.Group
-          open={open}
-          visible
-          icon={open ? 'calendar-today' : 'plus'}
-          actions={[
-            { icon: 'plus', onPress: () => console.log('Pressed add') },
-            {
-              icon: 'star',
-              label: 'Star',
-              onPress: () => console.log('Pressed star'),
-            },
-            {
-              icon: 'email',
-              label: 'Email',
-              onPress: () => console.log('Pressed email'),
-            },
-            {
-              icon: 'bell',
-              label: 'Remind',
-              onPress: () => console.log('Pressed notifications'),
-            },
-          ]}
-          onStateChange={onStateChange}
-          onPress={() => {
-            if (open) {
-              // do something if the speed dial is open
-            }
-          }}
-        />
-      </Portal>
-    </Provider>
+      <View style={[StyleSheet.container, props.stilo]}>
+            <TouchableWithoutFeedback>
+                <Animated.View style={[styles.button, styles.submenu, likeStyle]}>
+                    <AntDesign name="heart" size={24} color="#FFF" />
+                </Animated.View>
+            </TouchableWithoutFeedback>
+
+            <TouchableWithoutFeedback>
+                <Animated.View style={[styles.button, styles.submenu, cameraStyle]}>
+                    <AntDesign name="camera" size={24} color="#FFF" />
+                </Animated.View>
+            </TouchableWithoutFeedback>
+
+            <TouchableWithoutFeedback onPress={() => toogleMenu()}>
+                <Animated.View style={[styles.button, styles.menu, rotation]}>
+                    <AntDesign name="plus" size={24} color="#FFF" />
+                </Animated.View>
+            </TouchableWithoutFeedback>
+      </View>
   );
 };
 
-export default FabButton;
+export default FabButtonMenu;
+
+const styles = StyleSheet.create({
+
+    container:{
+      alignItems: 'center',
+      position: 'absolute'
+    },
+    button:{
+      position: 'absolute',
+      width: 60,
+      height: 60,
+      borderRadius: 60 / 2,
+      justifyContent: 'center',
+      alignItems: 'center',
+      shadowRadius: 10,
+      shadowColor: '#00213B',
+      shadowOpacity: 0.3,
+      shadowOffset:{
+         height: 10
+      }
+    },
+    menu: {
+      backgroundColor: '#00213b'
+    },
+    submenu:{
+      width: 48,
+      height: 48,
+      borderRadius: 48 / 2,
+      backgroundColor: '#00213B'
+    }
+});

@@ -57,6 +57,7 @@ export default function DetalheEvento({route}) {
             console.log(route.params.idEvento)
             console.log(coment)
             console.log(usuarioLogado)
+            console.log(evento)
       }
 
   }, []);

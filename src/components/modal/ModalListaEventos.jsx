@@ -3,14 +3,14 @@ import {View, Text, StyleSheet, TouchableOpacity, Dimensions } from 'react-nativ
 import { Feather, AntDesign } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 
-export default function ModalListaEventos({local, qtdEventos, coordenadas, fecharModal}){
+export default function ModalListaEventos({local, qtdEventos, coordenadas, fecharModal, endereco}){
 
     const navigation = useNavigation();
 
     function abrirListaEventos(){
 
         fecharModal(false);
-        navigation.navigate('ListaEventos', {local: local, qtdEventos: qtdEventos, coordenadas: coordenadas});
+        navigation.navigate('ListaEventos', {local: local, qtdEventos: qtdEventos, coordenadas: coordenadas, endereco: endereco});
     }
 
     return(

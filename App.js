@@ -26,10 +26,11 @@ export default function App() {
   const [usuarios, setUsuarios] = useState(dadosUsuarios);
   const [comentarios, setComentarios] = useState(dadosComentarios);
   const [usuarioLogado, setUsuarioLogado] = useState();
+  const [resumoEventos, setResumoEventos] = useState({qtd: 0, endereco: ''});
 
   return (
 
-    <Context.Provider value={[eventos, setEventos, usuarios, setUsuarios, usuarioLogado, setUsuarioLogado, comentarios, setComentarios]}>
+    <Context.Provider value={[eventos, setEventos, usuarios, setUsuarios, usuarioLogado, setUsuarioLogado, comentarios, setComentarios, resumoEventos, setResumoEventos]}>
       <PaperProvider>
         <NavigationContainer>
 
