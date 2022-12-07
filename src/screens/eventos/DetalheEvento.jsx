@@ -19,6 +19,7 @@ export default function DetalheEvento({route}) {
     descricao: '',
     data: '',
     hora: '',
+    risco: '',
     latitude: 0,
     longitude: 0
 });
@@ -71,7 +72,7 @@ export default function DetalheEvento({route}) {
           <CabecalhoDetalheEvento
               tipo={evento.categoria}
               local={evento.endereco} 
-              status='Perigo baixo' 
+              status={evento.risco} 
               data={evento.data}
               hora={evento.hora}
               estrelas={2}

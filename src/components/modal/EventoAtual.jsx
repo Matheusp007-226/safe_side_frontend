@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useContext} from 'react';
 import {View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
@@ -30,7 +30,7 @@ export default function EventoAtual({categoria, nomeUsuario, endereco, data, hor
 const styles = StyleSheet.create({
     container: {
       width: '100%',
-      height: 200,
+      height: 180,
       backgroundColor: '#000',
       display: 'flex',
       alignItems: 'center',
@@ -38,7 +38,8 @@ const styles = StyleSheet.create({
       borderBottomRightRadius: 15,
       borderBottomLeftRadius: 15,
       padding: 20,
-      marginBottom: 15
+      marginBottom: 15,
+      marginTop: 40
     },
     containerInterno:{
         display: 'flex',

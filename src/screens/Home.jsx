@@ -11,12 +11,31 @@ import FabButton from '../components/fabButton/';
 import FabButtonMenu from '../components/FabButton';
 import Context from '../components/context';
 import { AntDesign, Entypo } from '@expo/vector-icons';
+import { Feather } from '@expo/vector-icons';
+import EventoAtual from '../components/modal/EventoAtual';
+import { dataAtual, formataDataPadraoBR, formataDataBanco} from '../utilitarios/dateAndTime';
 
 export default function Home({navigation}) {
 
   const [marginTop, setMarginTop] = useState(20);
   const [topListView, setTopListView] = useState(70);
   const [eventos, setEventos, usuarios, setUsuarios, usuarioLogado, setUsuarioLogado, comentarios, setComentarios, resumoEventos, setResumoEventos] = useContext(Context);
+
+
+  const getEventosAtuais = () =>{
+
+        let eventAtual = eventos.filter(item => {
+            console.log(item.data)
+            console.log(dataAtual())
+            console.log((item.data).localeCompare(dataAtual()))
+            return ((item.data).localeCompare(dataAtual()) == 0) && (item.endereco === region.endereco)
+        });
+
+        console.log("eventos atuais")
+        console.log(eventAtual);
+
+        setEventosAtuais([...eventAtual]);
+  }
 
   const cadastrarEvento = () =>{
         let local = {latitude: location.coords.latitude, longitude: location.coords.longitude, endereco: region.endereco};
@@ -43,6 +62,7 @@ export default function Home({navigation}) {
   const [region,setRegion] = React.useState({latitude: -13.0064403,longitude: -38.4800165,latitudeDelta: 0.000922,longitudeDelta: 0.000421})
   const [marker,setMarker] = useState({title:'', description: ''});
   const [modalEventos, setModalEventos] = useState(false);
+  const [eventosAtuais, setEventosAtuais] = useState([]);
   // const [resumoEventos, setResumoEventos] = useState({qtd: 0, endereco: ''});
   const [location, setLocation] = useState(null);
   const [destination, setDestination] = useState(null);
@@ -82,6 +102,8 @@ export default function Home({navigation}) {
           console.log('status modal eventos 2');
           console.log(modalEventos);
       }
+
+      // getEventosAtuais();
 
 
       console.log('---------------------------------------------------------------------------------------------------')
@@ -150,6 +172,7 @@ export default function Home({navigation}) {
   return (
     <View style={styles.container}>
 
+
       <GooglePlacesAutocomplete
                   renderLeftButton={()  => <Octicons name="search" size={24} color="black" />}
                   placeholder='Para aonde vamos?'
@@ -208,6 +231,11 @@ export default function Home({navigation}) {
                   
             />
 
+{/* {
+        eventosAtuais.length > 0 ? eventosAtuais.map( item => <EventoAtual style={styles.modalEventAtual} key={item.id} categoria={item.categoria} nomeUsuario={item.nomeUsuario} endereco={item.endereco} data={item.data} hora={item.hora} />) : ''
+      
+      } */}
+
               <Modal
                 animationType={'slide'}
                 transparent={true}
@@ -218,9 +246,6 @@ export default function Home({navigation}) {
             >
                    <ModalListaEventos local={resumoEventos.endereco} qtdEventos={resumoEventos.qtd} coordenadas={region} fecharModal={setModalEventos} endereco={region.endereco} />
             </Modal>
-              
-            
-           
 
             <MapView region={region} style={styles.map}>
 
@@ -239,13 +264,13 @@ export default function Home({navigation}) {
       <View style={[StyleSheet.containerFab, {bottom: 80, right: 25}]}>
             <TouchableWithoutFeedback onPress={() => {showModalEventos()}}>
                 <Animated.View style={[styles.button, styles.submenu, likeStyle]}>
-                    <AntDesign name="heart" size={24} color="#FFF" />
+                    <Feather name="list" size={24} color="#FFF" />
                 </Animated.View>
             </TouchableWithoutFeedback>
 
             <TouchableWithoutFeedback onPress={() => cadastrarEvento()}>
                 <Animated.View style={[styles.button, styles.submenu, cameraStyle]}>
-                    <AntDesign name="camera" size={24} color="#FFF" />
+                    <Entypo name="add-to-list" size={24} color="#FFF" />
                 </Animated.View>
             </TouchableWithoutFeedback>
 
@@ -255,6 +280,7 @@ export default function Home({navigation}) {
                 </Animated.View>
             </TouchableWithoutFeedback>
       </View>
+      
 
     </View> 
    
@@ -316,5 +342,10 @@ const styles = StyleSheet.create({
     height: 48,
     borderRadius: 48 / 2,
     backgroundColor: '#00213B'
+  },
+  modalEventAtual:{
+    position: 'absolute',
+    top: 0,
+    marginTop: 50
   }
 });

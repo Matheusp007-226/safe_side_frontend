@@ -7,6 +7,7 @@ const dados = [
         descricao: 'blablakkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk',
         data: '10/06/2022',
         hora: '19:30',
+        risco: 'Baixo',
         latitude: -12.9812172,
         longitude: -38.4649511
     },
@@ -18,6 +19,7 @@ const dados = [
         descricao: 'Mais de 6 homens fortemente armados, portando fúsil de grosso calibre, aparentemente tentaram assaltar um banco!',
         data: '05/10/2021',
         hora: '07:36',
+        risco: 'Médio',
         latitude: -12.9812172,
         longitude: -38.4649511
     },
@@ -29,6 +31,7 @@ const dados = [
         descricao: 'Acidente que que dois carros colidiram frontalmente da rodovia x, um dos carros está completamente destruído.  Até entãi idêntificado 3 pessoas com ferimentos aparentemente leve e uma desacordada com vários ferimentos. Já foi contatado os primeiros socorros e a transsalvador. No momento possue 3 pesoas dando suporte e o local já foi devidamente sinalizado para evitar outros acidentes. O transito está muito congestionado.',
         data: '25/08/2022',
         hora: '20:40',
+        risco: 'Alto',
         latitude: -12.9812172,
         longitude: -38.4649511
     },
@@ -40,6 +43,19 @@ const dados = [
         descricao: 'Aluna, estudante de enfermagem foi atropelada em frente a faculdade Unifacs, aonde estudava, o motorista fugiu sem prestar socorro!',
         data: '04/12/2022',
         hora: '19:20',
+        risco: 'Extremo',
+        latitude: -12.9610877,
+        longitude: -38.4319418
+    },
+    {
+        id: '5',
+        categoria: 'Tiroteio',
+        nomeUsuario: 'Matheus Pimentel', 
+        endereco: 'Avenida Luís Viana, 3100-3146 Pituaçu - Imbuí, Salvador - BA, 41720-200, Brasil',
+        descricao: 'Troca de tiro entre policia e assaltante com uma pessoa sem baleada!',
+        data: '07/12/2022',
+        hora: '16:00',
+        risco: 'Médio',
         latitude: -12.9610877,
         longitude: -38.4319418
     }

@@ -9,11 +9,12 @@ import { Entypo } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import Context from '../../components/context';
 import FabButton from '../../components/FabButton';
+import {dataAtual, tempoAtual } from '../../utilitarios/dateAndTime';
 
 export default function ListaEventos({route}) {
     
-    let dataAtual = new Date();
-    dataAtual = dataAtual.getDate() + "/" + (dataAtual.getMonth() + 1) + "/" + dataAtual.getFullYear();
+    // let dataAtual = new Date();
+    // dataAtual = dataAtual.getDate() + "/" + (dataAtual.getMonth() + 1) + "/" + dataAtual.getFullYear();
 
     const [eventos, setEventos, usuarios, setUsuarios, usuarioLogado, setUsuarioLogado, comentarios, setComentarios, resumoEventos, setResumoEventos] = useContext(Context);
 
@@ -22,6 +23,7 @@ export default function ListaEventos({route}) {
     const [date, setDate] = useState(dataAtual);
     const [time, setTime] = useState('');
     const [image, setImage] = useState(null);
+
     const [open, setOpen] = useState(false);
     const [categoria, setCategoria] = useState();
     const [items, setItems] = useState([
@@ -30,6 +32,15 @@ export default function ListaEventos({route}) {
       {label: 'Violência', value: 'Violência'},
       {label: 'Desastres naturais', value: 'Desastes naturais'}
     ]);
+
+    const [openRisco, setOpenRisco] = useState(false);
+    const [nivelRisco, setNivelRisco] = useState();
+    const [itemsRisco, setItemsRisco] = useState([
+      {label: 'Baixo', value: 'Baixo'},
+      {label: 'Médio', value: 'Médio'},
+      {label: 'Alto', value: 'Alto'},
+      {label: 'Extremo', value: 'Extremo'}
+    ]); 
 
     const pickImage = async () => {
         // No permissions request is necessary for launching the image library
@@ -49,14 +60,18 @@ export default function ListaEventos({route}) {
 
       const cadastrarEvento = () => {
 
+          let data_atual = dataAtual();
+          let tempo_atual = tempoAtual();
+
           let event =  {
             id: eventos.length + 1,
             categoria: categoria,
             nomeUsuario: 'Matheus Pimentel', 
             endereco: coordenadas.endereco,
             descricao: textoArea,
-            data: '25/08/2022',
-            hora: '20:40',
+            data: data_atual,
+            hora: tempo_atual,
+            risco: nivelRisco,
             latitude: coordenadas.latitude,
             longitude: coordenadas.longitude
       }
@@ -77,12 +92,15 @@ export default function ListaEventos({route}) {
 
   useEffect(() => {
 
+        setTime(tempoAtual());
+
         if(idEvento){
 
             let evento = eventos.filter( item => item.id === idEvento);
             console.log(evento)
             setCategoria(evento[0].categoria);
             setTextoArea(evento[0].descricao);
+            setNivelRisco(evento[0].risco);
             setDate(evento[0].data);
             setTime(evento[0].hora);
         }
@@ -95,7 +113,20 @@ export default function ListaEventos({route}) {
 
     <View style={styles.container}>
 
-        <MaterialIcons name="event-note" size={200} color="black" />
+        <MaterialIcons name="event-note" size={170} color="black" />
+
+        <DropDownPicker
+            open={openRisco}
+            value={nivelRisco}
+            items={itemsRisco}
+            setOpen={setOpenRisco}
+            setValue={setNivelRisco}
+            setItems={setItemsRisco}
+            containerStyle={{
+                width: '80%'
+            }}
+            placeholder='Selecione o nível de risco...'
+        />
 
         <DropDownPicker
             open={open}
@@ -105,7 +136,9 @@ export default function ListaEventos({route}) {
             setValue={setCategoria}
             setItems={setItems}
             containerStyle={{
-                width: '80%'
+                width: '80%',
+                marginTop: 10,
+                zIndex: 10
             }}
             placeholder='Selecione a categoria...'
         />
@@ -117,12 +150,12 @@ export default function ListaEventos({route}) {
             </TouchableOpacity>
 
             <TouchableOpacity style={styles.btnTime}>
-                <Text>{time}</Text>
+                <Text>{time ?? tempoAtual()}</Text>
                 <Ionicons name="time-outline" size={24} color="black" />
             </TouchableOpacity>
         </View>
 
-        <TextInput multiline={true} numberOfLines={7} textAlignVertical="top" style={styles.textArea} value={textoArea} onChangeText={(text) => { console.log(text); setTextoArea(text)}} />
+        <TextInput multiline={true} numberOfLines={7} textAlignVertical="top" style={styles.textArea} value={textoArea} placeholder="Descreva o evento..." onChangeText={(text) => { console.log(text); setTextoArea(text)}} />
 
         <View style={styles.imgContainer}>
             {!image && 

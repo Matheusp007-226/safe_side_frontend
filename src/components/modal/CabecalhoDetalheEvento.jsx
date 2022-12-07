@@ -26,7 +26,7 @@ export default function CabecalhoDetalheEvento({tipo, status, local, data, hora,
     
         <View style={styles.container}>
                 <Text style={styles.textLabelTitulo}>{tipo}</Text>
-                <Text style={styles.textLabel}>{status}</Text>
+                <Text style={styles.textLabel}>Risco {status}</Text>
                 <Text style={styles.textLabel}>{local}</Text>
                 <View style={styles.containerData}>
                     <Text style={styles.textLabel}>{data}</Text>
