@@ -1,16 +1,34 @@
 import React from 'react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { StyleSheet,View,TouchableOpacity, Text, FlatList} from 'react-native';
-
+import Context from '../components/context';
 
 export default function Comentarios(props) {
+
+  const [eventos, setEventos, usuarios, setUsuarios, usuarioLogado, setUsuarioLogado, comentarios, setComentarios] = useContext(Context);
+  const [usuario, setUsuario] = useState('');
+
+  useEffect(() => {
+
+      let usua = props.idUsuario ?? props.idUsuarioLogado;
+
+      if(props.idUsuario){
+          let user = usuarios.filter(user => user.id === usua);
+          setUsuario(user[0].nomeUsuario);
+
+                console.log(props.idUsuarioLogado);
+
+
+      }
+
+  }, []);
 
   return (
                                 
     <View style={styles.container}>
           <View style={styles.containerFoto}>
                  <View style={styles.foto}></View>
-                 <Text style={styles.usuario}>Matheus</Text>
+                 <Text style={styles.usuario}>{usuario}</Text>
           </View>
           <Text style={styles.textComentario}> {props.descricao} </Text>
     </View>

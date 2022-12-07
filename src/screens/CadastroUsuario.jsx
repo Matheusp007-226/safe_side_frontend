@@ -1,7 +1,8 @@
 import React from 'react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { StyleSheet,KeyboardAvoidingView, TextInput, TouchableOpacity, Text, Alert, View} from 'react-native';
 import { Entypo, FontAwesome, Feather, MaterialIcons } from '@expo/vector-icons';
+import Context from '../components/context';
 
 export default function CadastroUsuario() {
 
@@ -10,6 +11,8 @@ export default function CadastroUsuario() {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(true);
 
+  const [eventos, setEventos, usuarios, setUsuarios, usuarioLogado, setUsuarioLogado] = useContext(Context);
+
   const register = () => {
 
         if(name === '' || login === '' || password === ''){
@@ -17,6 +20,15 @@ export default function CadastroUsuario() {
             Alert.alert('Preencha todos os campos!');
 
         }else{
+
+            let newUser = {
+                email: login,
+                id: usuarios.length + 1,
+                nomeUsuario: name,
+                senha: password
+            };
+
+            setUsuarios([...usuarios, newUser]);
 
             Alert.alert('Usuário cadastrado com sucesso!');
         }

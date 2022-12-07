@@ -37,7 +37,7 @@ export default function Home({navigation}) {
   const [region,setRegion] = React.useState({latitude: -13.0064403,longitude: -38.4800165,latitudeDelta: 0.000922,longitudeDelta: 0.000421})
   const [marker,setMarker] = useState({title:'', description: ''});
   const [modalEventos, setModalEventos] = useState(false);
-
+  const [resumoEventos, setResumoEventos] = useState({qtd: 0, endereco: ''});
   const [location, setLocation] = useState(null);
   const [destination, setDestination] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
@@ -65,6 +65,11 @@ export default function Home({navigation}) {
       let eventos_filtro = eventos.filter(item => (item.latitude == region.latitude && item.longitude == region.longitude));
 
       if(eventos_filtro.length > 0){
+
+          let qtdEventos = eventos_filtro.length;
+
+          setResumoEventos({qtd: qtdEventos, endereco: eventos_filtro[0].endereco.split(',')[0]});
+
           setModalEventos(true);
 
           console.log('status modal eventos 2');
@@ -96,6 +101,7 @@ export default function Home({navigation}) {
                     // console.log(data, details);
                     setMarker({...marker,title: details.name});
                     console.log(details.formatted_address)
+                    console.log(details.geometry.location);
                   }}
                   query={{
                     key: 'AIzaSyDXhAyCtr6XF6zvZIXLdMgchjv_ON4EJn0',
@@ -146,7 +152,7 @@ export default function Home({navigation}) {
                   setModalEventos(!modalEventos);
                 }}
             >
-                   <ModalListaEventos local='Pernambués' qtdEventos={56} fecharModal={setModalEventos} />
+                   <ModalListaEventos local={resumoEventos.endereco} qtdEventos={resumoEventos.qtd} coordenadas={region} fecharModal={setModalEventos} />
             </Modal>
               
             

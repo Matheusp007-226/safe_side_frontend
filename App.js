@@ -13,52 +13,24 @@ import EventoAtual from './src/components/modal/EventoAtual';
 import DetalheEvento from './src/screens/eventos/DetalheEvento';
 import CadastrarEvento from './src/screens/eventos/CadastrarEvento';
 import Context from './src/components/context';
+import {dados} from './src/BD/dadosEventos';
+import {dadosUsuarios} from './src/BD/dadosUsuario';
+import { dadosComentarios } from './src/BD/dadosComentarios';
+import { Provider as PaperProvider } from 'react-native-paper';
 
 const Stack = createStackNavigator();
 
 export default function App() {
 
-  const dados = [
-    {   
-        id: '1',
-        categoria: 'Incêndio',
-        nomeUsuario: 'Matheus Pimentel', 
-        endereco: 'Rua Arhur Azevedo, n 215, Pernambués',
-        descricao: 'blablakkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk',
-        data: '10/06/2022',
-        hora: '19:30',
-        latitude: -12.9812172,
-        longitude: -38.4649511
-    },
-    {
-        id: '2',
-        categoria: 'Tiroteio',
-        nomeUsuario: 'Anônimo', 
-        endereco: 'Rua Arábia Saudita, n 159, Pernambués',
-        descricao: 'ahahahahahahahahahahahahhaahahahahhahahahahahhahahahahah',
-        data: '05/10/2021',
-        hora: '07:36',
-        latitude: -12.9812172,
-        longitude: -38.4649511
-    },
-    {
-        id: '3',
-        categoria: 'Acidente de trânsito',
-        nomeUsuario: 'Bianca Souza', 
-        endereco: 'Rua Barbosa Correia, n 59, Pernambués',
-        descricao: 'fluflufluflfufiufufufufufufufufufufuufufufufufufufufuufufufufufuufufufufuf',
-        data: '25/08/2022',
-        hora: '20:40',
-        latitude: -12.9812172,
-        longitude: -38.4649511
-    }
-  ];
-
   const [eventos, setEventos] = useState(dados);
+  const [usuarios, setUsuarios] = useState(dadosUsuarios);
+  const [comentarios, setComentarios] = useState(dadosComentarios);
+  const [usuarioLogado, setUsuarioLogado] = useState();
 
   return (
 
-    <Context.Provider value={[eventos, setEventos]}>
+    <Context.Provider value={[eventos, setEventos, usuarios, setUsuarios, usuarioLogado, setUsuarioLogado, comentarios, setComentarios]}>
+      <PaperProvider>
         <NavigationContainer>
 
             <Stack.Navigator initialRouteName='Login'>
@@ -104,6 +76,7 @@ export default function App() {
             
 
         </NavigationContainer>
+      </PaperProvider>
     </Context.Provider>
    
   );

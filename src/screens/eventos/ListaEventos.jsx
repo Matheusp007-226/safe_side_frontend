@@ -6,12 +6,17 @@ import EventoResumo from './../../components/modal/EventoResumo';
 import Eventos from '../../components/modal/Eventos';
 import Context from '../../components/context'
 
-export default function ListaEventos({ navigation }) {
+export default function ListaEventos({ navigation, route }) {
   
   const [eventos, setEventos] = useContext(Context);
+  const [eventosLocal, setEventosLocal] = useState();
 
   useEffect(() => {
-    
+
+      if(route.params.coordenadas){
+          setEventosLocal(eventos.filter(item => item.latitude === route.params.coordenadas.latitude && item.longitude === route.params.coordenadas.longitude));
+      }
+
   }, []);
 
   return (
@@ -23,14 +28,14 @@ export default function ListaEventos({ navigation }) {
        <EventoResumo 
         freq="Levemente habitual" 
         status="Perigo moderado" 
-        endereco="Pernambués, Salvador - BA"
+        endereco={route.params.local}
         estrelas={3}
        />
 
         <Text style={styles.textLabelPrincipal}>Todos os eventos</Text>
 
             <FlatList 
-                data={eventos}
+                data={eventosLocal}
                 keyExtractor={item => item.id}
                 renderItem={({item}) => 
                         <Eventos 

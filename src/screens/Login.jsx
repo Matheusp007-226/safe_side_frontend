@@ -1,13 +1,18 @@
 import React from 'react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { StyleSheet,KeyboardAvoidingView, TextInput, TouchableOpacity, Text, Alert, Image, View} from 'react-native';
 import { Entypo, FontAwesome, Feather } from '@expo/vector-icons';
+import Context from '../components/context';
 
 export default function Login({ navigation }) {
 
   const [login, setLogin] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(true);
+
+  const [eventos, setEventos, usuarios, setUsuarios, usuarioLogado, setUsuarioLogado, comentarios, setComentarios] = useContext(Context);
+
+  console.log(usuarios)
 
   const logIn = () => {
 
@@ -17,7 +22,19 @@ export default function Login({ navigation }) {
 
     }else{
 
-        navigation.navigate('Home');
+      let user = usuarios.filter(item => item.email === login && item.senha === password);
+
+        if(user.length > 0){
+            console.log(user)
+            setUsuarioLogado(...user);
+
+            navigation.navigate('Home');
+
+        }else{
+
+            Alert.alert('Usuário ou senha incorretos!')
+        }
+        
         // setShowPassword(!showPassword);
     }
 

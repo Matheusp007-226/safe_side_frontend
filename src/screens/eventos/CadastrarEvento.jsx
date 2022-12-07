@@ -8,6 +8,7 @@ import * as ImagePicker from 'expo-image-picker';
 import { Entypo } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import Context from '../../components/context';
+import FabButton from '../../components/FabButton';
 
 export default function ListaEventos({route}) {
     

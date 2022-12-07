@@ -55,7 +55,7 @@ export default function CabecalhoDetalheEvento({tipo, status, local, data, hora,
 const styles = StyleSheet.create({
     container: {
         width: '95%',
-        height: 180,
+        height: 200,
         backgroundColor: '#000',
         display: 'flex',
         alignItems: 'flex-start',

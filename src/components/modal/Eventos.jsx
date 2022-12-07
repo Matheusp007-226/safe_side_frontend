@@ -52,7 +52,7 @@ export default function Eventos({id,categoria, nomeUsuario, endereco, data, hora
 const styles = StyleSheet.create({
     container: {
       width: '100%',
-      height: 150,
+      height: 170,
       backgroundColor: '#000',
       display: 'flex',
       alignItems: 'flex-start',

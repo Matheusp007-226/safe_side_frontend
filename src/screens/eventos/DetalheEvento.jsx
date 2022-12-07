@@ -1,94 +1,93 @@
 import React from 'react';
-import { useState, useEffect } from 'react';
-import { StyleSheet,View,TouchableOpacity, Text, FlatList, ScrollView} from 'react-native';
+import { useState, useEffect, useContext } from 'react';
+import { StyleSheet,View,TouchableOpacity, Text, ScrollView} from 'react-native';
 import Comentarios from '../../components/Comentarios';
 import CabecalhoDetalheEvento from '../../components/modal/CabecalhoDetalheEvento';
 import AnexosImage from '../../components/modal/AnexosImage';
+import Context from '../../components/context';
+import ModalComentarios from '../../components/ModalComentarios';
+import { Dialog, Portal, TextInput, Button } from 'react-native-paper';
 
-export default function DetalheEvento() {
+export default function DetalheEvento({route}) {
 
-  const evento = {
-      id: 2,
-      tipo: 'Acidente de trânsito',
-      local: 'Rodoviária, Salvador - BA',
-      status: 'Perigo baixo',
-      data: '11/04/2022',
-      hora: '22:48',
-      estrela: 2,
-      descDetalhe: 'Acidente que que dois carros colidiram frontalmente da rodovia x, um dos carros está completamente destruído.  Até entãi idêntificado 3 pessoas com ferimentos aparentemente leve e uma desacordada com vários ferimentos. Já foi contatado os primeiros socorros e a transsalvador. No momento possue 3 pesoas dando suporte e o local já foi devidamente sinalizado para evitar outros acidentes. O transito está muito congestionado.'
+  const [eventos, setEventos, usuarios, setUsuarios, usuarioLogado, setUsuarioLogado, comentarios, setComentarios] = useContext(Context);
+  const [evento, setEvento] = useState({
+    id: '',
+    categoria: '',
+    nomeUsuario: '', 
+    endereco: '',
+    descricao: '',
+    data: '',
+    hora: '',
+    latitude: 0,
+    longitude: 0
+});
+
+  const [coment, setComent] = useState();
+  const [visible, setVisible] = React.useState(false);
+  const [text, setText] = React.useState("");
+
+  const hideDialog = () => setVisible(!visible);
+
+  const salvarComentario = () =>{
+
+        let newComent = {
+          id: eventos.length + 1,
+          idEvento: route.params.idEvento,
+          idUsuario: usuarioLogado.id,
+          descricao: text, 
+          data: '17/12/2022',
+          hora: '01:45'
+        }
+
+        setVisible(!visible);
+        setText('');
+        setComentarios([...comentarios, newComent]);
+        setComent([...coment, newComent]);
   }
-  
-  const comentarios_base = [
-    {   
-        id: '1',
-        idEvento: 2,
-        idUsuario: 2,
-        descricao: 'Um amigo de um privo viu e contou sua versão do ocorrido, ele disse que...!', 
-        data: '10/06/2022',
-        hora: '19:30'
-    },
-    {
-        id: '2',
-        idEvento: 2,
-        idUsuario: 3,
-        descricao: 'Estava passando por perto e presenciei o ato, 100% verdade!', 
-        data: '05/10/2021',
-        hora: '07:36'
-    },
-    {
-        id: '3',
-        idEvento: 2,
-        idUsuario: 6,
-        descricao: 'Na minha ótica foi um pouco diferente, na minha opinião 80% do que vc falou é verdade, os outros 20% é o seguinte...!', 
-        data: '25/08/2022',
-        hora: '20:40'
-    }
-  ];
-
-  const [comentarios, setComentarios] = useState(comentarios_base);
 
   useEffect(() => {
     
+      if(route.params.idEvento){
+            setComent(comentarios.filter(item => {
+              console.log(item)
+             return item.idEvento === route.params.idEvento}));
+            setEvento(...eventos.filter(item => item.id === route.params.idEvento));
+
+            console.log(route.params.idEvento)
+            console.log(coment)
+            console.log(usuarioLogado)
+      }
+
   }, []);
 
   return (
-
 
     <ScrollView>
 
         <View style={styles.container}>
 
           <CabecalhoDetalheEvento
-              tipo={evento.tipo}
-              local={evento.local} 
-              status={evento.status} 
+              tipo={evento.categoria}
+              local={evento.endereco} 
+              status='Perigo baixo' 
               data={evento.data}
               hora={evento.hora}
               estrelas={2}
           />
 
                 <View style={styles.descricaoDetalhada}>
-                    <Text style={styles.textDescDetalhe}>{evento.descDetalhe}</Text>
+                    <Text style={styles.textDescDetalhe}>{evento.descricao}</Text>
                 </View>
 
                 <Text style={styles.titulos}>Comentários/ Avaliações</Text>
 
-                {/* <FlatList 
-                    data={comentarios}
-                    keyExtractor={item => { return item.id}}
-                    renderItem={({item}) =>     
-                        
-                                <Comentarios style={styles.comentarios} descricao={item.descricao} />
-
-                    }
-                /> */}
-
                 {
-                  comentarios.map(item => <Comentarios key={item.id} id={item.id} style={styles.comentarios} descricao={item.descricao} />)
+                  coment ? coment.map(item => <Comentarios key={item.id} id={item.id} style={styles.comentarios} descricao={item.descricao} idUsuario={item.idUsuario} idUsuarioLogado={usuarioLogado.id} />) : ''
                 }
 
                 <View style={styles.containerBtn}>
-                    <TouchableOpacity style={styles.btn}>
+                    <TouchableOpacity style={styles.btn} onPress={() => setVisible(!visible)}>
                         <Text style={styles.textComentario}>Comentar</Text>
                     </TouchableOpacity>
                 </View>
@@ -96,6 +95,26 @@ export default function DetalheEvento() {
                 <Text style={styles.titulos}>Anexos:</Text>
 
                 <AnexosImage />
+
+                <Portal>
+                 <Dialog visible={visible} onDismiss={hideDialog}>
+                  <Dialog.ScrollArea>
+                    <ScrollView contentContainerStyle={{paddingHorizontal: 24}}>
+                      <TextInput
+                        label="Comentário"
+                        multiline={true}
+                        numberOfLines={8}
+                        value={text}
+                        onChangeText={text => setText(text)}
+                      />
+                    </ScrollView>
+                    <TouchableOpacity style={styles.btnSalvarComent} onPress={() => salvarComentario()}>
+                        <Text style={styles.textSalvarComent}>salvar</Text>
+                    </TouchableOpacity>
+
+                  </Dialog.ScrollArea>
+                </Dialog>
+              </Portal>
 
             </View>
 
@@ -146,5 +165,16 @@ const styles = StyleSheet.create({
     fontSize: 17,
     textAlign: 'justify'
   },
-  
+  btnSalvarComent:{
+    padding: 10,
+    backgroundColor: '#D9D9D9',
+    width: '40%',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginTop: 7
+  },
+  textSalvarComent:{
+    fontSize: 17,
+    textAlign: 'center'
+  }
 });
