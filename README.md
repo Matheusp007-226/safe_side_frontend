@@ -25,12 +25,6 @@ Uma sistema para cadastrar eventos de acordo com  a localidade da geolocalizaç�
 - Cadastro de usuários
 - Resumo estatístico de eventos de um local
 
-
-## Demonstração
-
-Insira um gif ou um link de alguma demonstração
-
-
 ## Layout da Aplicação
 ![layout 1](Login_cadastro_preenchido.PNG) ![layout 2](alerta_eventos.PNG) ![layout 3](eventos.PNG) ![layout 4](comentarios_avaliacao.PNG)
 ## Instalação
